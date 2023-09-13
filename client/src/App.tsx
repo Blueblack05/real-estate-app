@@ -33,7 +33,6 @@ import routerBindings, {
 import dataProvider from "@refinedev/simple-rest";
 import axios, { AxiosRequestConfig } from "axios";
 import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
-import { ColorModeContextProvider } from "./contexts/color-mode";
 import { CredentialResponse } from "./interfaces/google";
 import {
   BlogPostCreate,
@@ -62,6 +61,7 @@ import {
 
 import { parseJwt } from "./utils/parse-jwt";
 import { MuiInferencer } from "@refinedev/inferencer/mui";
+import { profile } from "console";
 
 const axiosInstance = axios.create();
 axiosInstance.interceptors.request.use((request: AxiosRequestConfig) => {
@@ -82,26 +82,45 @@ function App() {
     login: async ({ credential }: CredentialResponse) => {
       const profileObj = credential ? parseJwt(credential) : null;
 
-      if (profileObj) {
+      // If profileObj is null, immediately return a rejected promise.
+      if (!profileObj) {
+        return Promise.reject({
+          success: false,
+          message: "Profile object is null.",
+        });
+      }
+
+      // Save user to mongoDB...
+      const response = await fetch("http://localhost:8080/api/v1/users", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: profileObj.name,
+          email: profileObj.email,
+          avatar: profileObj.picture,
+        }),
+      });
+
+      const data = await response.json();
+      if (response.status === 200) {
         localStorage.setItem(
           "user",
           JSON.stringify({
             ...profileObj,
             avatar: profileObj.picture,
+            userid: data._id,
           })
         );
-
-        localStorage.setItem("token", `${credential}`);
-
-        return {
-          success: true,
-          redirectTo: "/",
-        };
+      } else {
+        return Promise.reject(new Error(data.message || "Network error"));
       }
 
-      return {
-        success: false,
-      };
+      localStorage.setItem("token", `${credential}`);
+
+      return Promise.resolve({
+        success: true,
+        redirectTo: "/",
+      });
     },
     logout: async () => {
       const token = localStorage.getItem("token");
@@ -157,109 +176,107 @@ function App() {
   return (
     <BrowserRouter>
       <RefineKbarProvider>
-        <ColorModeContextProvider>
-          <CssBaseline />
-          <GlobalStyles styles={{ html: { WebkitFontSmoothing: "auto" } }} />
-          <RefineSnackbarProvider>
-            <Refine
-              dataProvider={dataProvider("https://api.fake-rest.refine.dev")}
-              notificationProvider={notificationProvider}
-              routerProvider={routerBindings}
-              authProvider={authProvider}
-              resources={[
-                {
-                  name: "Dashboard",
-                  list: "Home",
-                  options: { label: "Dashboard" },
-                  icon: <Dashboard />,
-                },
-                {
-                  name: "properties",
-                  list: AllProperties,
-                  show: PropertyDetails,
-                  create: CreateProperty,
-                  edit: EditProperty,
-                  icon: <VillaOutlined />,
-                },
-                {
-                  name: "agent",
-                  list: Agents,
-                  show: AgentProfile,
-                  icon: <PeopleAltOutlined />,
-                },
-                {
-                  name: "review",
-                  list: Home,
-                  icon: <StarOutlineRounded />,
-                },
-                {
-                  name: "Message",
-                  list: Home,
-                  icon: <Chat />,
-                },
-                {
-                  name: "my-profile",
-                  list: MuiInferencer,
-                  options: { label: "My Profile" },
-                  icon: <AccountCircleOutlined />,
-                },
-              ]}
-              options={{
-                syncWithLocation: true,
-                warnWhenUnsavedChanges: true,
-                projectId: "t4mKyV-tcuOGf-rXS2d0",
-              }}
-            >
-              <Routes>
+        <CssBaseline />
+        <GlobalStyles styles={{ html: { WebkitFontSmoothing: "auto" } }} />
+        <RefineSnackbarProvider>
+          <Refine
+            dataProvider={dataProvider("http://localhost:8080/api/v1")}
+            notificationProvider={notificationProvider}
+            routerProvider={routerBindings}
+            authProvider={authProvider}
+            resources={[
+              {
+                name: "Dashboard",
+                list: "Home",
+                options: { label: "Dashboard" },
+                icon: <Dashboard />,
+              },
+              {
+                name: "properties",
+                list: AllProperties,
+                show: PropertyDetails,
+                create: CreateProperty,
+                edit: EditProperty,
+                icon: <VillaOutlined />,
+              },
+              {
+                name: "agent",
+                list: Agents,
+                show: AgentProfile,
+                icon: <PeopleAltOutlined />,
+              },
+              {
+                name: "review",
+                list: Home,
+                icon: <StarOutlineRounded />,
+              },
+              {
+                name: "Message",
+                list: Home,
+                icon: <Chat />,
+              },
+              {
+                name: "my-profile",
+                list: MuiInferencer,
+                options: { label: "My Profile" },
+                icon: <AccountCircleOutlined />,
+              },
+            ]}
+            options={{
+              syncWithLocation: true,
+              warnWhenUnsavedChanges: true,
+              projectId: "t4mKyV-tcuOGf-rXS2d0",
+            }}
+          >
+            <Routes>
+              <Route
+                element={
+                  <Authenticated fallback={<CatchAllNavigate to="/login" />}>
+                    <ThemedLayoutV2
+                      Header={ThemedHeaderV2}
+                      Sider={ThemedSiderV2}
+                      Title={ThemedTitleV2}
+                    >
+                      <Outlet />
+                    </ThemedLayoutV2>
+                  </Authenticated>
+                }
+              >
                 <Route
-                  element={
-                    <Authenticated fallback={<CatchAllNavigate to="/login" />}>
-                      <ThemedLayoutV2
-                        Header={ThemedHeaderV2}
-                        Sider={ThemedSiderV2}
-                        Title={ThemedTitleV2}
-                      >
-                        <Outlet />
-                      </ThemedLayoutV2>
-                    </Authenticated>
-                  }
-                >
-                  <Route
-                    index
-                    element={<NavigateToResource resource="Dashboard" />}
-                  />
-                  <Route path="/home" element={<Home />}></Route>
-                  <Route path="/properties">
-                    <Route index element={<AllProperties />} />
-                    <Route path="create" element={<CreateProperty />} />
-                    <Route path="edit/:id" element={<EditProperty />} />
-                    <Route path="show/:id" element={<PropertyDetails />} />
-                  </Route>
-                  <Route path="/categories">
-                    <Route index element={<CategoryList />} />
-                    <Route path="create" element={<CategoryCreate />} />
-                    <Route path="edit/:id" element={<CategoryEdit />} />
-                    <Route path="show/:id" element={<CategoryShow />} />
-                  </Route>
-                  <Route path="*" element={<ErrorComponent />} />
+                  index
+                  element={<NavigateToResource resource="Dashboard" />}
+                />
+                <Route path="/home" element={<Home />}></Route>
+                <Route path="/properties">
+                  <Route index element={<AllProperties />} />
+                  <Route path="create" element={<CreateProperty />} />
+                  <Route path="edit/:id" element={<EditProperty />} />
+                  <Route path="show/:id" element={<PropertyDetails />} />
                 </Route>
-                <Route
-                  element={
-                    <Authenticated fallback={<Outlet />}>
-                      <NavigateToResource />
-                    </Authenticated>
-                  }
-                >
-                  <Route path="/login" element={<Login />} />
+                <Route path="/categories">
+                  <Route index element={<CategoryList />} />
+                  <Route path="create" element={<CategoryCreate />} />
+                  <Route path="edit/:id" element={<CategoryEdit />} />
+                  <Route path="show/:id" element={<CategoryShow />} />
                 </Route>
-              </Routes>
+                <Route path="*" element={<ErrorComponent />} />
+              </Route>
+              <Route
+                element={
+                  <Authenticated fallback={<Outlet />}>
+                    <NavigateToResource />
+                  </Authenticated>
+                }
+              >
+                <Route path="/login" element={<Login />} />
+              </Route>
+            </Routes>
 
-              <RefineKbar />
-              <UnsavedChangesNotifier />
-              <DocumentTitleHandler />
-            </Refine>
-          </RefineSnackbarProvider>
-        </ColorModeContextProvider>
+            <RefineKbar />
+            <UnsavedChangesNotifier />
+            <DocumentTitleHandler />
+          </Refine>
+        </RefineSnackbarProvider>
       </RefineKbarProvider>
     </BrowserRouter>
   );

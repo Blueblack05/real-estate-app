@@ -5,7 +5,6 @@ import SvgIcon from "@mui/material/SvgIcon";
 import Typography from "@mui/material/Typography";
 import type { RefineLayoutThemedTitleProps } from "@refinedev/mui";
 
-import { logo, yariga } from "../../assets";
 const defaultText = "Yariga";
 
 const defaultIcon = (
@@ -51,8 +50,8 @@ export const ThemedTitleV2: React.FC<RefineLayoutThemedTitleProps> = ({
         <Typography
           variant="h6"
           fontWeight={700}
-          color="text.primary"
-          fontSize="inherit"
+          color="black"
+          fontSize="16"
           textOverflow="ellipsis"
           overflow="hidden"
         >

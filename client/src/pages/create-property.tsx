@@ -1,13 +1,16 @@
 import { useState } from "react";
 import { useGetIdentity } from "@refinedev/core";
-import { FieldValues, useForm } from "@refinedev/react-hook-form";
+import { useForm } from "@refinedev/react-hook-form";
 import { useNavigate } from "react-router-dom";
+
+import { FieldValues } from "react-hook-form";
+
 import Form from "../components/common/Form";
-import { RvHookupSharp } from "@mui/icons-material";
 
 const CreateProperty = () => {
-  const navigate = useNavigate();
-  const { data: user } = useGetIdentity();
+  const { data: user } = useGetIdentity({
+    v3LegacyAuthProviderCompatible: true,
+  });
   const [propertyImage, setPropertyImage] = useState({ name: "", url: "" });
   const {
     refineCore: { onFinish, formLoading },
@@ -27,11 +30,17 @@ const CreateProperty = () => {
       setPropertyImage({ name: file?.name, url: result })
     );
   };
-  const onFinishHandler = async (data: FieldValues) => {
-    if (!propertyImage.name) return alert("Please upload a property image");
 
-    await onFinish({ ...data, photo: propertyImage.url, email: user.email });
+  const onFinishHandler = async (data: FieldValues) => {
+    if (!propertyImage.name) return alert("Please select an image");
+
+    await onFinish({
+      ...data,
+      photo: propertyImage.url,
+      email: user.email,
+    });
   };
+
   return (
     <Form
       type="Create"
@@ -45,5 +54,4 @@ const CreateProperty = () => {
     />
   );
 };
-
 export default CreateProperty;

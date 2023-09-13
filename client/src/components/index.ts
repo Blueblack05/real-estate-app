@@ -9,7 +9,7 @@ import PropertyReferrals from "./charts/PropertyReferrals";
 import TotalRevenue from "./charts/TotalRevenue";
 
 // agent
-import AgentCard from "./agent/agentCard";
+import AgentCard from "./agent/AgentCard";
 
 // home
 import TopAgent from "./home/TopAgent";

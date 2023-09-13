@@ -481,7 +481,7 @@ export const ThemedSiderV2: React.FC<RefineThemedLayoutV2SiderProps> = ({
             <RenderToTitle collapsed={siderCollapsed} />
             {!siderCollapsed && (
               <IconButton size="small" onClick={() => setSiderCollapsed(true)}>
-                {<ChevronLeft />}
+                {<ChevronLeft sx={{ color: "#1e36e8" }} />}
               </IconButton>
             )}
           </Paper>

@@ -185,7 +185,6 @@ const Form = ({
                   accept="image/*"
                   type="file"
                   onChange={(e) => {
-                    //@ts-ignore
                     handleImageChange(e.target.files[0]);
                   }}
                 />
