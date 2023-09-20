@@ -30,13 +30,17 @@ const getUserInfoByID = async (req, res) => {
   const { id } = req.params;
 
   const user = await User.findOne({ _id: id }).populate("allProperties");
-
-  if (user) {
+try {
+  if (user) { 
     res.status(200).json(user);
-    return;
-  }
+  } else {
 
   res.status(404).json({ message: "user not found!" });
 };
+  
+} catch (error) {
+  res.status(500).json({message: error.message})
+}
+
 
 export { getUserInfoByID, getAllUsers, createUser };
