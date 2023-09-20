@@ -17,7 +17,7 @@ const AgentProfile = () => {
   if (isError) return <div>Error...</div>;
   return (
     <Profile
-      type="My"
+      type="Agent"
       name={myProfile.name}
       email={myProfile.email}
       avatar={myProfile.avatar}
