@@ -1,5 +1,5 @@
-import '@pankod/refine-mui';
-
+/*eslint-disable */
+import "@refinedev/mui";
 export interface CustomTheme {
   // Add custom variables here like below:
   // status: {
@@ -7,9 +7,12 @@ export interface CustomTheme {
   // };
 }
 
-declare module '@pankod/refine-mui' {
-  interface Theme extends import('@pankod/refine-mui').Theme, CustomTheme {}
+declare module "@mui/material/styles" {
+  // @ts-ignore
+  interface Theme extends import("@mui/material/styles").Theme, CustomTheme {}
   interface ThemeOptions
-    extends import('@pankod/refine-mui').ThemeOptions,
+    // @ts-ignore
+    extends import("@mui/material/styles").ThemeOptions,
       CustomTheme {}
 }
+/*eslint-enable */

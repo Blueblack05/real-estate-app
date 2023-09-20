@@ -1,4 +1,3 @@
-import { formControlClasses } from "@mui/material";
 import {
   Box,
   Typography,
@@ -22,7 +21,7 @@ const Form = ({
   formLoading,
   onFinishHandler,
   propertyImage,
-}): FormProps => {
+}: FormProps) => {
   return (
     <Box>
       <Typography fontSize={25} fontWeight={700} color="#11142d">
@@ -53,6 +52,7 @@ const Form = ({
             <TextField
               fullWidth
               required
+              label="Property Name"
               id="outlined-basic"
               color="info"
               variant="outlined"
@@ -68,7 +68,7 @@ const Form = ({
                 color: "#11142d",
               }}
             >
-              Property Description
+              Property description
             </FormHelperText>
             <TextareaAutosize
               minRows={5}
@@ -85,7 +85,7 @@ const Form = ({
                 color: "#919191",
               }}
               {...register("description", { required: true })}
-            ></TextareaAutosize>
+            />
           </FormControl>
           <Stack direction="row" gap={4}>
             <FormControl sx={{ flex: 1 }}>
@@ -106,7 +106,7 @@ const Form = ({
                 required
                 inputProps={{ "aria-label": "without label" }}
                 defaultValue="apartment"
-                {...register("title", { required: true })}
+                {...register("propertyType", { required: true })}
               >
                 <MenuItem value="apartment">Apartment</MenuItem>
                 <MenuItem value="villa">Villa</MenuItem>
@@ -127,17 +127,18 @@ const Form = ({
                   color: "#11142d",
                 }}
               >
-                Enter Property Price
+                Enter property price
               </FormHelperText>
               <TextField
                 fullWidth
                 required
+                label="number"
                 type="number"
-                id="outlined-basicprice"
+                id="outlined-basic"
                 color="info"
                 variant="outlined"
                 {...register("price", { required: true })}
-              ></TextField>
+              />
             </FormControl>
           </Stack>
           <FormControl>
@@ -149,11 +150,12 @@ const Form = ({
                 color: "#11142d",
               }}
             >
-              Enter Property Location
+              Enter location
             </FormHelperText>
             <TextField
               fullWidth
               required
+              label="location"
               id="outlined-basic"
               color="info"
               variant="outlined"
@@ -185,6 +187,7 @@ const Form = ({
                   accept="image/*"
                   type="file"
                   onChange={(e) => {
+                    //@ts-ignore
                     handleImageChange(e.target.files[0]);
                   }}
                 />
@@ -192,18 +195,18 @@ const Form = ({
             </Stack>
             <Typography
               fontSize={14}
-              color="#800191"
+              color="#808191"
               sx={{ wordBreak: "break-all" }}
             >
               {propertyImage?.name}
             </Typography>
           </Stack>
           <CustomButton
-            type="Submit"
+            type="submit"
             title={formLoading ? "Submitting..." : "Submit"}
             backgroundColor="#475be8"
             color="#fcfcfc"
-          ></CustomButton>
+          />
         </form>
       </Box>
     </Box>

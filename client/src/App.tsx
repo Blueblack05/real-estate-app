@@ -34,18 +34,6 @@ import dataProvider from "@refinedev/simple-rest";
 import axios, { AxiosRequestConfig } from "axios";
 import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
 import { CredentialResponse } from "./interfaces/google";
-import {
-  BlogPostCreate,
-  BlogPostEdit,
-  BlogPostList,
-  BlogPostShow,
-} from "./pages/blog-posts";
-import {
-  CategoryCreate,
-  CategoryEdit,
-  CategoryList,
-  CategoryShow,
-} from "./pages/categories";
 
 import {
   Login,
@@ -253,12 +241,8 @@ function App() {
                   <Route path="edit/:id" element={<EditProperty />} />
                   <Route path="show/:id" element={<PropertyDetails />} />
                 </Route>
-                <Route path="/categories">
-                  <Route index element={<CategoryList />} />
-                  <Route path="create" element={<CategoryCreate />} />
-                  <Route path="edit/:id" element={<CategoryEdit />} />
-                  <Route path="show/:id" element={<CategoryShow />} />
-                </Route>
+                <Route path="/agent" element={<Agents />}></Route>
+                <Route path="/my-profile" element={<MyProfile />}></Route>
                 <Route path="*" element={<ErrorComponent />} />
               </Route>
               <Route

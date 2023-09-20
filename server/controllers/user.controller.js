@@ -1,11 +1,18 @@
 import User from "../mongoDB/models/user.js";
 
-const getAllUsers = async (req, res) => {};
+const getAllUsers = async (req, res) => {
+  try {
+    const users = await User.find({}).limit(req.query._end);
+
+    res.status(200).json(users);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
 
 const createUser = async (req, res) => {
   try {
     const { name, email, avatar } = req.body;
-    console.log(req.body);
 
     const userExist = await User.findOne({ email });
 
@@ -15,11 +22,21 @@ const createUser = async (req, res) => {
 
     res.status(200).json(newUser);
   } catch (error) {
-    console.log(error);
     res.status(500).json({ message: error.message });
   }
 };
 
-const getUserInfoByID = async (req, res) => {};
+const getUserInfoByID = async (req, res) => {
+  const { id } = req.params;
+
+  const user = await User.findOne({ _id: id }).populate("allProperties");
+
+  if (user) {
+    res.status(200).json(user);
+    return;
+  }
+
+  res.status(404).json({ message: "user not found!" });
+};
 
 export { getUserInfoByID, getAllUsers, createUser };

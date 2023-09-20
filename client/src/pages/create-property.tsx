@@ -1,16 +1,14 @@
 import { useState } from "react";
 import { useGetIdentity } from "@refinedev/core";
 import { useForm } from "@refinedev/react-hook-form";
-import { useNavigate } from "react-router-dom";
-
 import { FieldValues } from "react-hook-form";
-
+import { useNavigate } from "react-router-dom";
 import Form from "../components/common/Form";
 
 const CreateProperty = () => {
-  const { data: user } = useGetIdentity({
-    v3LegacyAuthProviderCompatible: true,
-  });
+  const navigate = useNavigate();
+
+  const { data: user } = useGetIdentity();
   const [propertyImage, setPropertyImage] = useState({ name: "", url: "" });
   const {
     refineCore: { onFinish, formLoading },

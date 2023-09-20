@@ -10,6 +10,6 @@ const PropertySchema = new mongoose.Schema({
   creator: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
 });
 
-const Property = mongoose.model("Property", PropertySchema);
+const propertyModel = mongoose.model("Property", PropertySchema);
 
-export default Property;
+export default propertyModel;
