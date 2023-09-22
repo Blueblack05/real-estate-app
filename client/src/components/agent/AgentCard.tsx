@@ -5,6 +5,10 @@ import { useGetIdentity } from "@refinedev/core";
 import { Link } from "react-router-dom";
 import { Box, Typography, Stack } from "@mui/material";
 
+interface currentUser {
+  email: string;
+}
+
 const InfoBar = ({ icon, name }: InfoBarProps) => (
   <Stack flex={1} minWidth={{ xs: "100%", sm: 300 }} gap={5} direction="row">
     {icon}
@@ -21,7 +25,7 @@ const AgentCard = ({
   avatar,
   noOfProperties,
 }: AgentCardProp) => {
-  const { data: currentUser } = useGetIdentity();
+  const { data: currentUser } = useGetIdentity() as { data: currentUser };
 
   const generateLink = () => {
     if (currentUser.email === email) return "/my-profile";

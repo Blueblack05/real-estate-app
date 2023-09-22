@@ -5,7 +5,7 @@ import IconButton from "@mui/material/IconButton";
 import type { IconButtonProps } from "@mui/material/IconButton";
 
 const HamburgerIcon = (props: IconButtonProps) => (
-  <IconButton color="inherit" aria-label="open drawer" edge="start" {...props}>
+  <IconButton color="primary" aria-label="open drawer" edge="start" {...props}>
     <Menu />
   </IconButton>
 );

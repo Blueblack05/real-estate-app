@@ -5,7 +5,7 @@ import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 
-import { yariga } from "../assets";
+import yariga from "../assets/yariga.svg";
 
 import { CredentialResponse } from "../interfaces/google";
 

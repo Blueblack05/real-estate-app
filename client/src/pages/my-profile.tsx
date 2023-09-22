@@ -1,8 +1,12 @@
 import { useGetIdentity, useOne } from "@refinedev/core";
 import { Profile } from "../components";
 
+interface User {
+  userid: string;
+}
+
 const MyProfile = () => {
-  const { data: user } = useGetIdentity();
+  const { data: user } = useGetIdentity() as { data: User | null };
   const { data, isLoading, isError } = useOne({
     resource: "users",
     id: user?.userid,

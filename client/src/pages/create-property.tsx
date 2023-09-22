@@ -5,6 +5,10 @@ import { FieldValues } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import Form from "../components/common/Form";
 
+interface User {
+  email: string;
+}
+
 const CreateProperty = () => {
   const navigate = useNavigate();
 
@@ -35,7 +39,7 @@ const CreateProperty = () => {
     await onFinish({
       ...data,
       photo: propertyImage.url,
-      email: user.email,
+      email: (user as User).email,
     });
   };
 

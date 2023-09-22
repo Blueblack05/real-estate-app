@@ -13,6 +13,10 @@ import Star from "@mui/icons-material/Star";
 
 import { CustomButton } from "../components";
 
+interface User {
+  email: string;
+}
+
 function checkImage(url: any) {
   const img = new Image();
   img.src = url;
@@ -38,7 +42,7 @@ const PropertyDetails = () => {
     return <div>Something went wrong!</div>;
   }
 
-  const isCurrentUser = user.email === propertyDetails.creator.email;
+  const isCurrentUser = (user as User).email === propertyDetails.creator.email;
 
   const handleDeleteProperty = () => {
     const response = confirm("Are you sure you want to delete this property?");

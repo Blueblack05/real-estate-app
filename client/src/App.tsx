@@ -172,15 +172,15 @@ function App() {
         <RefineSnackbarProvider>
           <Refine
             dataProvider={dataProvider(
-              "https://real-estate-website-riap.onrender.com"
+              "https://real-estate-website-riap.onrender.com/api/v1"
             )}
             notificationProvider={notificationProvider}
             routerProvider={routerBindings}
             authProvider={authProvider}
             resources={[
               {
-                name: "Dashboard",
-                list: "Home",
+                name: "dashboard",
+                list: "home",
                 options: { label: "Dashboard" },
                 icon: <Dashboard />,
               },
@@ -204,7 +204,7 @@ function App() {
                 icon: <StarOutlineRounded />,
               },
               {
-                name: "Message",
+                name: "message",
                 list: Home,
                 icon: <Chat />,
               },

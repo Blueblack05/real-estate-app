@@ -22,3 +22,9 @@ node_modules
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+client/dist/favicon.ico
+client/dist/index.html
+client/dist/refine.svg
+client/dist/assets/index-2b2dc52b.js
+client/dist/assets/index-a766ed49.css
+client/dist/assets/yariga-e542f758.svg

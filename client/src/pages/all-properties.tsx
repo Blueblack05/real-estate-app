@@ -177,7 +177,7 @@ const AllProperties = () => {
             alignItems="center"
             gap="5px"
           >
-            Page{""}
+            Page
             <strong>
               {current} of {pageCount}
             </strong>

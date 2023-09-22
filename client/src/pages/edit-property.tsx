@@ -4,6 +4,10 @@ import { useForm } from "@refinedev/react-hook-form";
 import { FieldValues } from "react-hook-form";
 import Form from "../components/common/Form";
 
+interface User {
+  email: string;
+}
+
 const CreateProperty = () => {
   const { data: user } = useGetIdentity();
   const [propertyImage, setPropertyImage] = useState({ name: "", url: "" });
@@ -32,7 +36,7 @@ const CreateProperty = () => {
     await onFinish({
       ...data,
       photo: propertyImage.url,
-      email: user.email,
+      email: (user as User).email,
     });
   };
 
