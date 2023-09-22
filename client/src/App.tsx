@@ -205,7 +205,7 @@ function App() {
               },
               {
                 name: "my-profile",
-                list: MuiInferencer,
+                list: MyProfile,
                 options: { label: "My Profile" },
                 icon: <AccountCircleOutlined />,
               },
@@ -241,7 +241,10 @@ function App() {
                   <Route path="edit/:id" element={<EditProperty />} />
                   <Route path="show/:id" element={<PropertyDetails />} />
                 </Route>
-                <Route path="/agent" element={<Agents />}></Route>
+                <Route path="/agent">
+                  <Route index element={<Agents />} />
+                  <Route path="show/:id" element={<AgentProfile />} />
+                </Route>
                 <Route path="/my-profile" element={<MyProfile />}></Route>
                 <Route path="*" element={<ErrorComponent />} />
               </Route>

@@ -1,10 +1,8 @@
 import { useList } from "@refinedev/core";
 import { Box, Typography } from "@mui/material";
 import { AgentCard } from "../components";
-import { useNavigate } from "react-router-dom";
 
 const Agent = () => {
-  const navigate = useNavigate();
   const { data, isLoading, isError } = useList({ resource: "users" });
 
   const allAgents = data?.data ?? [];
