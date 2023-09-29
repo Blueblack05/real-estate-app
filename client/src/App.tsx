@@ -110,7 +110,7 @@ function App() {
 
       return Promise.resolve({
         success: true,
-        redirectTo: "/",
+        redirectTo: "/dashboard",
       });
     },
     logout: async () => {

@@ -68,7 +68,7 @@ export const Login: React.FC = () => {
             justifyContent: "center",
           }}
         >
-          <img src={yariga} alt="Yariga logo" />
+          <img src={yariga} alt="Holiday Homes Realty logo" />
         </div>
 
         <GoogleButton />
